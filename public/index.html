@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vườn Sầu Riêng Online</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        h1 { color: #2e7d32; text-align: center; }
+        .grid { display: flex; gap: 20px; justify-content: center; margin-top: 30px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 250px; }
+        .price { color: #d32f2f; font-weight: bold; font-size: 1.2em; }
+        .btn { background: #4caf50; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer; width: 100%; }
+        .btn:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+
+    <h1>MÚI SẦU ĐẬM VỊ - GIAO HÀNG TẬN NƠI</h1>
+    
+    <div class="grid" id="danh-sach-san-pham">
+        </div>
+
+    <script>
+        // Dùng Fetch API để lấy dữ liệu từ Backend về
+        fetch('/api/products')
+            .then(response => response.json())
+            .then(products => {
+                const container = document.getElementById('danh-sach-san-pham');
+                container.innerHTML = products.map(p => `
+                    <div class="card">
+                        <h3>${p.ten}</h3>
+                        <p><strong>Hình thức:</strong> ${p.hinhThuc}</p>
+                        <p>${p.moTa}</p>
+                        <p class="price">${p.gia.toLocaleString('vi-VN')} đ / ${p.donVi}</p>
+                        <button class="btn" onclick="alert('Đã thêm vào giỏ hàng tạm tính!')">Mua ngay</button>
+                    </div>
+                `).join('');
+            })
+            .catch(err => console.error("Lỗi lấy dữ liệu:", err));
+    </script>
+</body>
+</html>
